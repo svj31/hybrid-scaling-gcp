@@ -14,7 +14,7 @@ This project demonstrates a **Hybrid Cloud Scaling** mechanism where a local vir
 - Demonstrate hybrid cloud scaling behavior
 
 
-## Architecture
+## Architecture Diagram
 
 ![Architecture Diagram](architecture-diagram.png)
 
@@ -27,7 +27,7 @@ This project demonstrates a **Hybrid Cloud Scaling** mechanism where a local vir
 - Runs sample web application
 
 ### 2. Monitoring Script
-- Implemented in Python using `psutil`
+- Implemented in Python using psutil
 - Continuously checks CPU usage
 - Triggers cloud VM via GCP CLI
 
