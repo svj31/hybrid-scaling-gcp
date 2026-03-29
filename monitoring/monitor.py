@@ -5,28 +5,32 @@ import os
 THRESHOLD = 75
 CHECK_INTERVAL = 5
 
-VM_NAME = "vcc-base-vm"
+MIG_NAME = "vcc-managed-group"
 ZONE = "asia-south1-a"
 
 triggered = False
 
-def get_vm_status():
-    status = os.popen(f"gcloud compute instances describe {VM_NAME} --zone={ZONE} --format='get(status)'").read().strip()
-    return status
+def get_instance_count():
+    output = os.popen(
+        f"gcloud compute instance-groups managed list-instances {MIG_NAME} --zone={ZONE} --format='value(instance)'"
+    ).read()
+    return len(output.strip().split("\n")) if output.strip() else 0
 
 while True:
     cpu = psutil.cpu_percent(interval=1)
     print(f"CPU Usage: {cpu}%")
 
     if cpu > THRESHOLD and not triggered:
-        vm_status = get_vm_status()
-        print(f"VM Status: {vm_status}")
+        count = get_instance_count()
+        print(f"Current MIG instances: {count}")
 
-        if vm_status == "TERMINATED":
-            print("Threshold exceeded! Starting GCP VM...")
-            os.system(f"gcloud compute instances start {VM_NAME} --zone={ZONE}")
+        if count < 2:
+            print("Threshold exceeded! Scaling MIG to 2 instances...")
+            os.system(
+                f"gcloud compute instance-groups managed resize {MIG_NAME} --size=2 --zone={ZONE}"
+            )
             triggered = True
         else:
-            print("VM already running or starting. Skipping trigger.")
+            print("Already scaled.")
 
     time.sleep(CHECK_INTERVAL)
