@@ -57,14 +57,14 @@
         <ul>
             <li><b>Environment:</b> 
                 <?php
-                    $ip = gethostbyname(gethostname());
+                    $ip = $_SERVER['SERVER_ADDR'];
 
                     if (strpos($ip, "10.") === 0) {
                         echo "Cloud VM (GCP)";
                     } elseif (strpos($ip, "192.") === 0) {
                         echo "Local VM (VirtualBox)";
                     } else {
-                        echo "Unknown Environment";
+                        echo "Local Machine / Unknown (Testing)";
                     }
                 ?>
             </li>
