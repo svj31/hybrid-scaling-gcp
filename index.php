@@ -56,12 +56,16 @@
         <h2>Execution Environment</h2>
         <ul>
             <li><b>Environment:</b> 
-                <?php 
-                if (strpos(gethostname(), 'base') !== false) {
-                    echo "Local VM (VirtualBox)";
-                } else {
-                    echo "Cloud VM (GCP)";
-                }
+                <?php
+                    $ip = gethostbyname(gethostname());
+
+                    if (strpos($ip, "10.") === 0) {
+                        echo "Cloud VM (GCP)";
+                    } elseif (strpos($ip, "192.") === 0) {
+                        echo "Local VM (VirtualBox)";
+                    } else {
+                        echo "Unknown Environment";
+                    }
                 ?>
             </li>
         </ul>
@@ -90,6 +94,7 @@
                         echo "Monitoring Available in VM (Linux Only)";
                     } else {
                         $load = sys_getloadavg();
+                        echo "Load: " . $load[0] . " → ";
                         echo ($load[0] > 0.75) ? "Scaling Triggered" : "Running Normally";
                     }
                 ?>
