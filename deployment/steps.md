@@ -27,7 +27,7 @@ sudo rm -rf *
 ```
 - Clone repository:
 ```
-sudo git clone [https://github.com/svj31/hybrid-scaling-gcp.git] .
+sudo git clone https://github.com/svj31/hybrid-scaling-gcp.git .
 ```
 - Restart Apache:
 ```
@@ -35,7 +35,7 @@ sudo systemctl restart apache2
 ```
 - Access application:
 ```
-[http://localhost]
+http://localhost
 ```
 
 
@@ -60,7 +60,7 @@ Startup script used in instance template can be accesed from: deployment/startup
 
 - Install gcloud CLI:
 ```
-curl [https://sdk.cloud.google.com] | bash
+curl https://sdk.cloud.google.com | bash
 exec -l $SHELL
 ```
 - Initialize:
